@@ -1,5 +1,5 @@
 <template>
-  <footer class="footer" :class="props.isOpen && 'open'">
+  <footer class="footer" :class="[props.isOpen && 'open', isDark]">
     <ul>
       <li v-for="(info, index) in infos" v-bind:key="index">
         <figure class="info">
@@ -30,6 +30,11 @@
   &.open {
     transform: scaleY(1);
     transition: all 600ms 200ms;
+  }
+
+  &.dark {
+    color: white;
+    background-color: hsl(0, 0%, 0%, 0.7);
   }
 }
 
@@ -77,12 +82,15 @@ ul {
 <script setup>
 import { computed } from 'vue'
 import { daysIntoYear, weekOfYear } from '../libs/utils.js'
+import { useCurrentTime } from '../libs/useCurrentTime.js'
 
 const props = defineProps({
   isOpen: Boolean,
   data: Object,
 })
 
+const { hours } = useCurrentTime()
+const isDark = computed(() => (hours.value < 7 || hours.value > 18) && 'dark')
 const currentTime = new Date()
 
 const infos = computed(() => [

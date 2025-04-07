@@ -42,6 +42,9 @@
   &.toTop {
     transform: translateY(calc(-100% + 98px - 249px));
     transition: all 600ms 200ms;
+    @include mobile-only() {
+      transform: translateY(calc(-100% + 98px + 56px - 232px));
+    }
   }
 
   .text {
@@ -69,7 +72,7 @@
 
     @include mobile-only() {
       font-size: 100px;
-      span {
+      .timezone {
         font-size: 15px;
       }
     }

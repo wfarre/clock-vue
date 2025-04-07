@@ -33,7 +33,7 @@
 .mask {
   content: ' ';
   position: absolute;
-  background-color: black;
+  background-color: hsl(0, 0%, 0%);
   height: 100%;
   width: 100%;
   top: 0;
@@ -63,7 +63,7 @@ import bgImgDay from '/assets/desktop/bg-image-daytime.jpg'
 
 const location = ref(null)
 
-const { hours, minutes } = useCurrentTime()
+const { hours } = useCurrentTime()
 
 const bgImage = computed(() => (hours >= 7 && hours < 18 ? bgImgDay : bgImgNight))
 
