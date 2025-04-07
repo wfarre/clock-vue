@@ -1,10 +1,10 @@
 <template>
   <section class="quote-section" :class="props.isOpen && 'hidden'">
-    <p class="content">
-      “The science of operations, as derived from mathematics more especially, is a science of
-      itself, and has its own abstract truth and value.”
+    <p v-if="error">Ooops! Something went wrong! Please try again later!</p>
+    <p v-if="data" class="content">
+      {{ data.content }}
     </p>
-    <h2 class="author">Ada Lovelace</h2>
+    <h2 v-if="data" class="author">{{ data.author }}</h2>
   </section>
 </template>
 
@@ -35,7 +35,12 @@
 </style>
 
 <script setup>
+import { useFetch } from '../libs/useFetch.js'
 const props = defineProps({
   isOpen: Boolean,
 })
+
+const { data, error } = useFetch('https://type.fit/api/quotes')
+
+console.log(data)
 </script>

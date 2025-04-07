@@ -1,14 +1,19 @@
 <template>
-  <img class="bg-img" src="/assets/desktop/bg-image-daytime.jpg" alt="" />
+  <img class="bg-img" :src="bgImage" alt="" />
   <div class="mask"></div>
 
   <div class="wrapper">
     <main>
       <QuoteSection :isOpen="isOpen" />
     </main>
-    <TimeHeader @closeMore="isOpen = false" @openMore="isOpen = true" :isOpen="isOpen" />
+    <TimeHeader
+      @closeMore="isOpen = false"
+      @openMore="isOpen = true"
+      :isOpen="isOpen"
+      :data="location"
+    />
   </div>
-  <FooterData :isOpen="isOpen" />
+  <FooterData :isOpen="isOpen" :data="location" />
 </template>
 
 <style scoped lang="scss">
@@ -43,23 +48,29 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
-  &::after {
-    content: ' ';
-    position: absolute;
-    background-color: black;
-    height: 100%;
-    width: 100%;
-    top: 0;
-    left: 0;
-  }
 }
 </style>
 
 <script setup>
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 import TimeHeader from './components/TimeHeader.vue'
 import FooterData from './components/FooterData.vue'
 import QuoteSection from './components/QuoteSection.vue'
+import Ipbase from '@everapi/ipbase-js'
+import { useCurrentTime } from './libs/useCurrentTime'
+import bgImgNight from '/assets/desktop/bg-image-nighttime.jpg'
+import bgImgDay from '/assets/desktop/bg-image-daytime.jpg'
+
+const location = ref(null)
+
+const { hours, minutes } = useCurrentTime()
+
+const bgImage = computed(() => (hours >= 7 && hours < 18 ? bgImgDay : bgImgNight))
+
+const ipBase = new Ipbase(import.meta.env.API_KEY)
+ipBase.info().then((res) => {
+  location.value = res.data
+})
 
 const isOpen = ref(false)
 </script>

@@ -1,9 +1,17 @@
 <template>
   <header class="header" :class="isOpen && 'toTop'">
     <div>
-      <p class="text">Good morning<span class="mobile-hidden">, it's currently</span></p>
-      <p class="time">11:37<span>BST</span></p>
-      <p class="text">in London, UK</p>
+      <p class="text">
+        <img :src="currentTimeIcon" :alt="greeting" />
+        {{ greeting }}<span class="mobile-hidden">, it's currently</span>
+      </p>
+      <p class="time">
+        {{ hours }}<span class="second-indicator">:</span>{{ minutes
+        }}<span class="timezone">{{ props.data?.timezone.code }}</span>
+      </p>
+      <p class="text">
+        in {{ props.data?.location.city.name }}, {{ props.data?.location.country.alpha2 }}
+      </p>
     </div>
     <MoreButton
       :isOpen="props.isOpen"
@@ -54,7 +62,7 @@
     font-weight: 900;
     line-height: 1;
 
-    span {
+    .timezone {
       font-size: 40px;
       font-weight: 300;
     }
@@ -67,14 +75,50 @@
     }
   }
 }
+
+.second-indicator {
+  animation-name: fade-in-out;
+  animation-duration: 2s;
+  animation-iteration-count: infinite;
+}
+
+@keyframes fade-in-out {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 50%;
+  }
+  100% {
+    opacity: 1;
+  }
+}
 </style>
 
 <script setup>
+import { computed } from 'vue'
+
 import MoreButton from './MoreButton.vue'
+import { useCurrentTime } from '../libs/useCurrentTime.js'
+import iconSun from '/assets/desktop/icon-sun.svg'
+import iconMoon from '/assets/desktop/icon-moon.svg'
+
+const { hours, minutes } = useCurrentTime()
 
 const props = defineProps({
   isOpen: Boolean,
+  data: Object,
 })
 
 const emits = defineEmits(['closeMore', 'openMore'])
+const currentTimeIcon = computed(() => (hours >= 7 && hours < 18 ? iconSun : iconMoon))
+const greeting = computed(() => {
+  if (hours >= 6) {
+    return 'Good morning'
+  } else if (hours >= 12) {
+    return 'Good afternoon'
+  } else {
+    return 'Good evening'
+  }
+})
 </script>

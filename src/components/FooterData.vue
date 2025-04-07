@@ -75,27 +75,32 @@ ul {
 </style>
 
 <script setup>
-import { ref } from 'vue'
+import { computed } from 'vue'
+import { daysIntoYear, weekOfYear } from '../libs/utils.js'
 
-const infos = ref([
+const props = defineProps({
+  isOpen: Boolean,
+  data: Object,
+})
+
+const currentTime = new Date()
+
+const infos = computed(() => [
   {
     title: 'current timezone',
-    data: 'Europe/London',
+    data: props.data?.timezone?.id,
   },
   {
     title: 'Day of the week',
-    data: '5',
+    data: currentTime.getDay(),
   },
   {
     title: 'Day of the year',
-    data: '295',
+    data: daysIntoYear(currentTime),
   },
   {
     title: 'week number',
-    data: '42',
+    data: weekOfYear(currentTime),
   },
 ])
-const props = defineProps({
-  isOpen: Boolean,
-})
 </script>
