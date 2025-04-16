@@ -2,7 +2,7 @@
   <header class="header" :class="isOpen && 'toTop'">
     <div>
       <p class="text">
-        <img :src="currentTimeIcon" :alt="greeting" />
+        <img :src="currentTimeIcon" :alt="currentTimeIconAlt" />
         {{ greeting }}<span class="mobile-hidden">, it's currently</span>
       </p>
       <p class="time">
@@ -20,6 +20,7 @@
     />
   </header>
 </template>
+
 <style lang="scss">
 @import '../assets/base.scss';
 
@@ -115,6 +116,8 @@ const props = defineProps({
 
 const emits = defineEmits(['closeMore', 'openMore'])
 const currentTimeIcon = computed(() => (hours >= 7 && hours < 18 ? iconSun : iconMoon))
+const currentTimeIconAlt = computed(() => (hours >= 7 && hours < 18 ? 'sun icon' : 'moon icon'))
+
 const greeting = computed(() => {
   if (hours >= 6) {
     return 'Good morning'
