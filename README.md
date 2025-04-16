@@ -30,3 +30,8 @@ npm run build
 ## Problem I encountered
 
 The API offered by frontendmentor didn't work.
+
+## Performances
+
+![alt text](public/dsk-perf.png)
+![alt text](public/mb-perf.png)
