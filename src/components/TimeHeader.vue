@@ -115,13 +115,15 @@ const props = defineProps({
 })
 
 const emits = defineEmits(['closeMore', 'openMore'])
-const currentTimeIcon = computed(() => (hours >= 7 && hours < 18 ? iconSun : iconMoon))
-const currentTimeIconAlt = computed(() => (hours >= 7 && hours < 18 ? 'sun icon' : 'moon icon'))
+const currentTimeIcon = computed(() => (hours.value >= 7 && hours.value < 18 ? iconSun : iconMoon))
+const currentTimeIconAlt = computed(() =>
+  hours.value >= 7 && hours.value < 18 ? 'sun icon' : 'moon icon',
+)
 
 const greeting = computed(() => {
-  if (hours >= 6) {
+  if (hours.value >= 6) {
     return 'Good morning'
-  } else if (hours >= 12) {
+  } else if (hours.value >= 12) {
     return 'Good afternoon'
   } else {
     return 'Good evening'

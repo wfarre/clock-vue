@@ -47,7 +47,7 @@
   left: 0;
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: fill;
 }
 </style>
 
@@ -65,7 +65,7 @@ const location = ref(null)
 
 const { hours } = useCurrentTime()
 
-const bgImage = computed(() => (hours >= 7 && hours < 18 ? bgImgDay : bgImgNight))
+const bgImage = computed(() => (hours.value >= 7 && hours.value < 18 ? bgImgDay : bgImgNight))
 
 const ipBase = new Ipbase(import.meta.env.API_KEY)
 ipBase.info().then((res) => {
